@@ -1,14 +1,16 @@
 <?php
-class FrontEndGridField extends GridField {
+class FrontEndGridField extends GridField
+{
     /**
      * Returns the whole gridfield rendered with all the attached components
      * @return string
      */
-    public function FieldHolder($properties=array()) {
+    public function FieldHolder($properties=array())
+    {
         Requirements::block(FRAMEWORK_DIR.'/css/GridField.css');
         Requirements::themedCSS('FrontEndGridField', FRONTEND_GRIDFIELD_BASE);
         
-        Requirements::add_i18n_javascript(FRAMEWORK_DIR.'/javascript/lang');        
+        Requirements::add_i18n_javascript(FRAMEWORK_DIR.'/javascript/lang');
         Requirements::javascript(THIRDPARTY_DIR . '/jquery/jquery.js');
         Requirements::javascript(THIRDPARTY_DIR.'/jquery-ui/jquery-ui.js');
         Requirements::javascript(FRAMEWORK_ADMIN_DIR.'/javascript/ssui.core.js');
@@ -20,4 +22,3 @@ class FrontEndGridField extends GridField {
         return parent::FieldHolder();
     }
 }
-?>

@@ -1,9 +1,11 @@
 <?php
-class FrontEndGridFieldDetailForm extends GridFieldDetailForm {
+class FrontEndGridFieldDetailForm extends GridFieldDetailForm
+{
     protected $template='FrontEndGridFieldDetailForm';
 }
 
-class FrontEndGridFieldDetailForm_ItemRequest extends GridFieldDetailForm_ItemRequest {
+class FrontEndGridFieldDetailForm_ItemRequest extends GridFieldDetailForm_ItemRequest
+{
     private static $allowed_actions=array(
                                         'view',
                                         'edit'
@@ -15,8 +17,9 @@ class FrontEndGridFieldDetailForm_ItemRequest extends GridFieldDetailForm_ItemRe
      * @param {SS_HTTPRequest} $request Request data
      * @return {string} Rendered view form
      */
-    public function view($request) {
-        if(!$this->record->canView()) {
+    public function view($request)
+    {
+        if (!$this->record->canView()) {
             $this->httpError(403);
         }
         
@@ -36,7 +39,8 @@ class FrontEndGridFieldDetailForm_ItemRequest extends GridFieldDetailForm_ItemRe
      * @param {SS_HTTPRequest} $request Request data
      * @return {string} Rendered edit form
      */
-    public function edit($request) {
+    public function edit($request)
+    {
         $controller=$this->getToplevelController();
         $form=$this->ItemEditForm($this->gridField, $request);
         
@@ -50,19 +54,21 @@ class FrontEndGridFieldDetailForm_ItemRequest extends GridFieldDetailForm_ItemRe
     /**
      * Disabled, the front end does not use breadcrumbs to remember the paths
      */
-    public function Breadcrumbs($unlinked = false) {
+    public function Breadcrumbs($unlinked = false)
+    {
         return;
     }
     
-    public function doDelete($data, $form) {
+    public function doDelete($data, $form)
+    {
         $title=$this->record->Title;
         try {
-            if(!$this->record->canDelete()) {
+            if (!$this->record->canDelete()) {
                 throw new ValidationException(_t('GridFieldDetailForm.DeletePermissionsFailure', "No delete permissions"), 0);
             }
         
             $this->record->delete();
-        }catch(ValidationException $e) {
+        } catch (ValidationException $e) {
             $form->sessionMessage($e->getResult()->message(), 'bad');
             return Controller::curr()->redirectBack();
         }
@@ -70,10 +76,10 @@ class FrontEndGridFieldDetailForm_ItemRequest extends GridFieldDetailForm_ItemRe
         $message=sprintf(_t('GridFieldDetailForm.Deleted', 'Deleted %s %s'), $this->record->i18n_singular_name(), htmlspecialchars($title, ENT_QUOTES));
         
         $toplevelController=$this->getToplevelController();
-        if($toplevelController && $toplevelController instanceof LeftAndMain) {
+        if ($toplevelController && $toplevelController instanceof LeftAndMain) {
             $backForm = $toplevelController->getEditForm();
             $backForm->sessionMessage($message, 'good');
-        }else {
+        } else {
             $form->sessionMessage($message, 'good');
         }
         
@@ -88,8 +94,8 @@ class FrontEndGridFieldDetailForm_ItemRequest extends GridFieldDetailForm_ItemRe
      * Wrapper for redirectBack()
      * @see Controller::redirectBack()
      */
-    public function redirectBack() {
+    public function redirectBack()
+    {
         return Controller::curr()->redirectBack();
     }
 }
-?>
